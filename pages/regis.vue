@@ -1,9 +1,9 @@
-<script lang="ts">
+<script lang="ts" setup>
 
 </script>
 <template>
     <div>
-        
+        <h1>regis</h1>
     </div>
 </template>
 
