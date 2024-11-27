@@ -1,0 +1,6 @@
+.btn_yellow {
+    border-radius: .5rem;
+    background-color: $yellow-normal;
+    padding: 1rem;
+    @include label-m;
+}

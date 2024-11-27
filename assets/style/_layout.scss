@@ -1,0 +1,24 @@
+.flex {
+    display: flex;
+}
+
+.mb-s {
+    margin-bottom: 1rem;
+}
+
+.mb-m {
+    margin-bottom: 2rem;
+}
+
+.mb-l {
+    margin-bottom: 3rem;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+}
+
+.space {
+    flex-grow: 1;
+}

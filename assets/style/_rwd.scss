@@ -1,0 +1,68 @@
+$breakpoint-maxwidth: 1200px;
+$breakpoint-desktop: 1024px;
+$breakpoint-tablet: 600px;
+$breakpoint-mobile: 480px;
+
+@mixin maxwidth {
+    @media (min-width: $breakpoint-maxwidth) {
+        @content;
+    }
+}
+
+@mixin desktop {
+    @media (min-width: $breakpoint-desktop) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media (max-width: $breakpoint-desktop) and (min-width: $breakpoint-tablet) {
+        @content;
+    }
+}
+
+@mixin mobile {
+    @media (min-width: 370px) and (max-width:$breakpoint-mobile){
+        @content;
+    }
+}
+
+.container {
+    margin: 0 auto;
+    @include maxwidth {
+        width: 1200px;
+    }
+    @include desktop {
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    @include tablet {
+        width: 90%;
+    }
+
+    @include mobile {
+        width: calc(100% - 2rem);
+        padding: 0 1rem;
+    }
+}
+
+.box-50 {
+    width: 50%;
+}
+
+.box-25 {
+    width: 25%;
+}
+
+.box-t-50 {
+    @include tablet {
+        width: 50%;
+    }
+}
+
+.box-m-50 {
+    @include mobile {
+        width: 50%;
+    }
+}

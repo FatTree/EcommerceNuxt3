@@ -17,10 +17,11 @@
     "vue-router": "^4.3.3"
   },
   "devDependencies": {
-    "eslint": "^9.13.0",
     "@nuxt/types": "^2.17.3",
     "@pinia/nuxt": "^0.5.1",
+    "eslint": "^9.13.0",
     "nuxt": "^3.9.3",
+    "nuxt-svgo": "^4.0.8",
     "pinia": "^2.1.7",
     "sass": "^1.77.2",
     "sass-loader": "^14.2.1",

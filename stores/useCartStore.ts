@@ -1,11 +1,5 @@
-// composables/useCart.ts
+import type { CartItem } from '~/models/viewModel'
 
-export interface CartItem {
-    id: string;
-    name: string;
-    quantity: number;
-    stock: number; // 庫存上限
-}
 const storeName = 'cart';
 export const useCart = defineStore(storeName, () => {
     const cart = ref<CartItem[]>([]);
@@ -42,22 +36,22 @@ export const useCart = defineStore(storeName, () => {
 
         const existingItem = cart.value.find((i) => i.id === item.id);
         if (existingItem) {
-            increaseQuantity(existingItem.id);
+            increaseQuantity(existingItem.id, item.quantity);
         } else {
-            cart.value.push({ ...item, quantity: 1 });
+            cart.value.push({ ...item, quantity: item.quantity });
         }
     };
 
     // 增加商品數量
-    const increaseQuantity = (id: string) => {
+    const increaseQuantity = (id: number, quantity: number) => {
         const item = cart.value.find((i) => i.id === id);
         if (item && item.quantity < item.stock) {
-            item.quantity++;
+            item.quantity += quantity;
         }
     };
 
     // 減少商品數量，最少為 1
-    const decreaseQuantity = (id: string) => {
+    const decreaseQuantity = (id: number) => {
         const item = cart.value.find((i) => i.id === id);
         if (item && item.quantity > 1) {
             item.quantity--;
@@ -65,7 +59,7 @@ export const useCart = defineStore(storeName, () => {
     };
 
     // 移除商品
-    const removeItem = (id: string) => {
+    const removeItem = (id: number) => {
         cart.value = cart.value.filter((item) => item.id !== id);
     };
 

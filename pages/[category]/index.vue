@@ -1,53 +1,126 @@
 <script lang="ts" setup>
 import { useRoute } from 'vue-router';
+import type { ProductModel } from '~/models/dataModel'
+const route = useRoute();
+
+const categoryStore = useCategory();
+const cartStore = useCart();
+const { 
+    addToCart,
+    canAddToCart
+} = cartStore;
+
+const {
+    categoryProductList
+} = storeToRefs(categoryStore);
+const {
+    getCategoryProductList
+} = categoryStore;
+
+const category: Ref<string> = ref(route.params.category as string);
+const productList: Ref<ProductModel[]> = ref([]);
+
+onBeforeMount(async() => {
+    await getCategoryProductList(category.value);
+    productList.value = categoryProductList.value.products;
+    console.log(productList.value);
+    
+})
 
 definePageMeta({
     async validate(route: any) {
         const categoryStore = useCategory();
 
         const {
-            CategoryList
+            CategoryList,
         } = storeToRefs(categoryStore);
 
         const {
-            getCategoryList
+            getCategoryList,
         } = categoryStore;
-        await getCategoryList() // 這邊刪掉的話，下面的CategoryList.value會undefined
-        console.log(CategoryList.value);
         
         
+        if(!CategoryList.value) {
+            await getCategoryList();
+        }
+
         const arr = CategoryList.value;
         return arr.includes(route.params.category);
     }
 });
 
-const route = useRoute();
-const category = ref(route.params.category);
 
 </script>
 <template>
-    <div>
-        <h1>page: Category~~</h1>
-        <!-- <p v-show="isLoading">isLoading...</p> -->
-        <h1>{{ category }}</h1>
-        <nav>
-            <NuxtLink :to="`/${category}/1`">product1</NuxtLink> |
-            <NuxtLink :to="`/${category}/2`">product2</NuxtLink> |
-            <NuxtLink :to="`/${category}/3`">product3</NuxtLink> |
-            <NuxtLink :to="`/${category}/4`">product4</NuxtLink>
-        </nav>
-        <div class="nuxtpage">
-            <h3>NuxtPage</h3>
-            <NuxtPage class="page" />
+    <div class="category">
+        <WhereIAm />
+        <div class="category__content">
+            <div class="filter">
+                filter
+            </div>
+            <div class="productContent">
+                <div class="productContent__top">
+                    <h3>{{ category }}</h3>
+                    <div>價格由低到高</div>
+                </div>
+                <div class="productContent__list">
+                    <ProductItem 
+                        v-for="prod in productList"
+                        :product="prod"
+                        :category="category" />
+                </div>
+            </div>
         </div>
     </div>
 </template>
 
 <style lang="scss">
-.nuxtpage {
-    width: 10em;
-    height: 10em;
-    border: 1px solid #000;
+
+.category {
+    &__content {
+        display: flex;
+        flex-direction: row;
+        > .filter {
+            flex:1 0 250px;
+            max-width: 300px;
+        }
+        > .productList {
+            flex: 1 0 400px;
+        }
+
+        @include mobile {
+            flex-direction: column;
+            > .filter {
+                max-width: 100%;
+            }
+        }
+        
+    }
+}
+
+.filter {
+    height: 500px;
+    background: palegoldenrod;
+}
+
+.productContent {
+    width: 100%;
+    background-color: pink;
+    
+    &__top {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    &__list {
+        display: flex;
+        flex-wrap: wrap;
+        @include mobile {
+            margin-left: -1rem;
+        }
+
+    }
 }
     
 </style>

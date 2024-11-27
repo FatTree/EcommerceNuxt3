@@ -1,7 +1,6 @@
 <!-- pages/cart.vue -->
 <script setup lang="ts">
-import { useCart } from '~/stores/useCartStore';
-const cartStore = useCart()
+const cartStore = useCart();
 const {
     totalQuantity,
     cart: cartItems,
